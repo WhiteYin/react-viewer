@@ -1,122 +1,126 @@
 export interface ViewerImageSize {
-  width: number;
-  height: number;
+  width: number
+  height: number
 }
 
 export interface ImageDecorator {
-  src: string;
-  alt?: string;
-  downloadUrl?: string;
-  defaultSize?: ViewerImageSize;
+  src: string
+  uid: string
+  alt?: string
+  downloadUrl?: string
+  defaultSize?: ViewerImageSize
+  originalUrl?: string
 }
 
 export interface ToolbarConfig {
-  key: string;
-  actionType?: number;
-  render?: React.ReactNode;
-  onClick?: (activeImage: ImageDecorator) => void;
+  key: string
+  actionType?: number
+  render?: React.ReactNode
+  onClick?: (activeImage: ImageDecorator) => void
 }
 
 export interface ViewerDefaultImg {
-  src: string;
-  width?: number;
-  height?: number;
+  src: string
+  width?: number
+  height?: number
 }
 
 interface ViewerProps {
   /** viewer是否可见 */
-  visible?: boolean;
+  visible?: boolean
   /** 点击关闭按钮的回调 */
-  onClose?: () => void;
+  onClose?: () => void
   /** 需要进行浏览的图片地址集合 */
-  images?: ImageDecorator[];
+  images?: ImageDecorator[]
   /** 当前图像index */
-  activeIndex?: number;
+  activeIndex?: number
   /** 自定义viewer组件的z-index */
-  zIndex?: number;
+  zIndex?: number
   /** viewer渲染的父节点，设置后开启inline mode */
-  container?: HTMLElement;
+  container?: HTMLElement
   /** 图片是否可拖动 */
-  drag?: boolean;
+  drag?: boolean
   /** 是否显示图片属性 */
-  attribute?: boolean;
+  attribute?: boolean
   /** 是否显示缩放按钮 */
-  zoomable?: boolean;
+  zoomable?: boolean
   /** 是否显示旋转按钮 */
-  rotatable?: boolean;
+  rotatable?: boolean
   /** 是否显示变换按钮 */
-  scalable?: boolean;
+  scalable?: boolean
   /** callback function when mask is clicked */
-  onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onMaskClick?: (e: React.MouseEvent<HTMLDivElement>) => void
   /** 是否显示下载按钮 */
-  downloadable?: boolean;
+  downloadable?: boolean
   /** 图片是否可循环 */
-  loop?: boolean;
+  loop?: boolean
+  /** 是否展示原图 */
+  showOriginal?: boolean
 
   // no render close button
-  noClose?: boolean;
+  noClose?: boolean
 
   // no render image details
-  noImgDetails?: boolean;
+  noImgDetails?: boolean
 
   // no render navbar
-  noNavbar?: boolean;
+  noNavbar?: boolean
 
   // no render toolbar
-  noToolbar?: boolean;
+  noToolbar?: boolean
 
   // no render footer
-  noFooter?: boolean;
+  noFooter?: boolean
 
   // wheather to show change button
-  changeable?: boolean;
+  changeable?: boolean
 
   // custom toolbar
-  customToolbar?: (toolbars: ToolbarConfig[]) => ToolbarConfig[];
+  customToolbar?: (toolbars: ToolbarConfig[]) => ToolbarConfig[]
 
   // zoom speed
-  zoomSpeed?: number;
+  zoomSpeed?: number
 
   // default image size
-  defaultSize?: ViewerImageSize;
+  defaultSize?: ViewerImageSize
 
   // if load img failed, show default img
-  defaultImg?: ViewerDefaultImg;
+  defaultImg?: ViewerDefaultImg
 
   // disable keyboard support
-  disableKeyboardSupport?: boolean;
+  disableKeyboardSupport?: boolean
 
   // no reset zoom after image change
-  noResetZoomAfterChange?: boolean;
+  noResetZoomAfterChange?: boolean
 
   // no limit image initialization size
-  noLimitInitializationSize?: boolean;
+  noLimitInitializationSize?: boolean
 
   // default scale
-  defaultScale?: number;
+  defaultScale?: number
 
   // callback when iamge change
-  onChange?: (activeImage: ImageDecorator, index: number) => void;
+  onChange?: (activeImage: ImageDecorator, index: number) => void
 
   // disable mouse zoom
-  disableMouseZoom?: boolean;
+  disableMouseZoom?: boolean
 
   // whether to download in a new window
-  downloadInNewWindow?: boolean;
+  downloadInNewWindow?: boolean
 
-  className?: string;
+  className?: string
 
   // whether to display the total number and range
-  showTotal?: boolean;
+  showTotal?: boolean
 
   // total indicator name.
-  totalName?: string;
+  totalName?: string
 
   // max scale
-  maxScale?: number;
+  maxScale?: number
 
   // min scale
-  minScale?: number;
+  minScale?: number
 }
 
-export default ViewerProps;
+export default ViewerProps

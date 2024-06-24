@@ -4,7 +4,7 @@
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {
-    "test": "jest",
+    "local_test": "jest",
     "start": "webpack-dev-server",
     "lint": "tslint -c tslint.json \"src/**/*.ts\" \"src/**/*.tsx\"",
     "build": "webpack --config webpack.config.prop.js && gulp",

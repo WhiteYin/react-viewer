@@ -17,6 +17,8 @@ const ACTION_TYPES = {
   setActiveIndex: 'setActiveIndex',
   update: 'update',
   clear: 'clear',
+  updateOriginalMap: 'updateOriginalMap',
+  deleteOriginalInfo: 'deleteOriginalInfo',
 }
 
 function createAction(type, payload) {
@@ -43,6 +45,7 @@ export interface ViewerCoreState {
   loading?: boolean
   loadFailed?: boolean
   startLoading: boolean
+  originalImgMap: Map<string, string | false>
 }
 
 export default (props: ViewerProps) => {
@@ -92,6 +95,7 @@ export default (props: ViewerProps) => {
     loading: false,
     loadFailed: false,
     startLoading: false,
+    originalImgMap: new Map(),
   }
   function setContainerWidthHeight() {
     let width = window.innerWidth
@@ -108,6 +112,8 @@ export default (props: ViewerProps) => {
   const containerSize = React.useRef(setContainerWidthHeight())
   const footerHeight = constants.FOOTER_HEIGHT
   function reducer(s: ViewerCoreState, action): typeof initialState {
+    const { originalImgMap } = s
+    const { imgUid, originalUrl } = action.payload
     switch (action.type) {
       case ACTION_TYPES.setVisible:
         return {
@@ -139,6 +145,22 @@ export default (props: ViewerProps) => {
           top: 0,
           left: 0,
           loading: false,
+        }
+      // 更新原图
+      case ACTION_TYPES.updateOriginalMap:
+        const newMap = new Map(originalImgMap)
+        newMap.set(imgUid, originalUrl)
+        return {
+          ...s,
+          originalImgMap: newMap,
+        }
+      // 删除原图数据
+      case ACTION_TYPES.deleteOriginalInfo:
+        const newMap2 = new Map(originalImgMap)
+        newMap2.delete(imgUid)
+        return {
+          ...s,
+          originalImgMap: newMap2,
         }
       default:
         break
@@ -211,17 +233,15 @@ export default (props: ViewerProps) => {
     }
   }, [activeIndex, visible, images])
 
-  function loadImg(currentActiveIndex, isReset = false) {
-    dispatch(
-      createAction(ACTION_TYPES.update, {
-        loading: true,
-        loadFailed: false,
-      })
-    )
+  function loadImg(currentActiveIndex, isReset = false, isOriginal = false) {
     let activeImage: ImageDecorator = null
     if (images.length > 0) {
       activeImage = images[currentActiveIndex]
     }
+    if (!activeImage) {
+      return
+    }
+    const { uid } = activeImage
     let loadComplete = false
     let img = new Image()
     img.onload = () => {
@@ -229,6 +249,13 @@ export default (props: ViewerProps) => {
         return
       }
       if (!loadComplete) {
+        isOriginal &&
+          dispatch(
+            createAction(ACTION_TYPES.updateOriginalMap, {
+              imgUid: uid,
+              originalUrl: img.src,
+            })
+          )
         loadImgSuccess(img.width, img.height, true)
       }
     }
@@ -236,6 +263,13 @@ export default (props: ViewerProps) => {
       if (!init.current) {
         return
       }
+      isOriginal &&
+        dispatch(
+          createAction(ACTION_TYPES.updateOriginalMap, {
+            imgUid: uid,
+            originalUrl: false,
+          })
+        )
       if (props.defaultImg) {
         dispatch(
           createAction(ACTION_TYPES.update, {
@@ -257,10 +291,35 @@ export default (props: ViewerProps) => {
         )
       }
     }
-    img.src = activeImage.src
+    // 如果是查看原图
+    if (isOriginal) {
+      img.src = activeImage.originalUrl || activeImage.src
+    } else {
+      const originImgUrl = state.originalImgMap.get(uid)
+      img.src = isReset ? activeImage.src : originImgUrl || activeImage.src
+    }
+    isReset &&
+      dispatch(
+        createAction(ACTION_TYPES.deleteOriginalInfo, {
+          imgUid: uid,
+        })
+      )
+    dispatch(
+      createAction(ACTION_TYPES.update, {
+        loading: true,
+        loadFailed: false,
+      })
+    )
     if (img.complete) {
       loadComplete = true
       loadImgSuccess(img.width, img.height, true)
+      isOriginal &&
+        dispatch(
+          createAction(ACTION_TYPES.updateOriginalMap, {
+            imgUid: uid,
+            originalUrl: img.src,
+          })
+        )
     }
     function loadImgSuccess(imgWidth, imgHeight, success) {
       if (currentActiveIndex !== currentLoadIndex.current) {
@@ -358,6 +417,7 @@ export default (props: ViewerProps) => {
       src: '',
       alt: '',
       downloadUrl: '',
+      uid: '',
     }
 
     let realActiveIndex = null
@@ -654,11 +714,65 @@ export default (props: ViewerProps) => {
   let activeImg: ImageDecorator = {
     src: '',
     alt: '',
+    uid: '',
   }
 
   if (visible && state.visible && !state.loading && state.activeIndex !== null && !state.startLoading) {
     activeImg = getActiveImage()
   }
+
+  const showOriginalUrlElem = React.useMemo(() => {
+    if (!props.showOriginal) {
+      return
+    }
+    const { uid } = activeImg
+    const { originalImgMap, loading } = state
+    const originalStatus = originalImgMap.get(uid)
+
+    // 如果下载了并且有结果，则展示已下载
+    if (originalStatus) {
+      return <div className={`${prefixCls}-original-title`}>已下载原图</div>
+    }
+
+    // 如果是loading状态，则不展示
+    if (loading) {
+      return null
+    }
+
+    // 否则展示按钮
+    return (
+      <div
+        className={`${prefixCls}-original-action`}
+        onClick={() => {
+          loadImg(state.activeIndex, true, true)
+        }}
+      >
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512" fill="currentColor">
+          <g id="icomoon-ignore"></g>
+          <path d="M496.131 435.698l-121.276-103.147c-12.537-11.283-25.945-16.463-36.776-15.963 28.628-33.534 45.921-77.039 45.921-124.588 0-106.039-85.961-192-192-192s-192 85.961-192 192 85.961 192 192 192c47.549 0 91.054-17.293 124.588-45.922-0.5 10.831 4.68 24.239 15.963 36.776l103.147 121.276c17.661 19.623 46.511 21.277 64.11 3.678s15.946-46.449-3.677-64.11zM192 320c-70.692 0-128-57.308-128-128s57.308-128 128-128 128 57.308 128 128-57.307 128-128 128z"></path>
+        </svg>
+        <span>查看原图</span>
+      </div>
+    )
+  }, [activeImg, state.activeIndex, state.originalImgMap, state.loading])
+
+  const imgSrc = React.useMemo(() => {
+    if (state.loadFailed) {
+      if (props.defaultImg) {
+        return props.defaultImg.src
+      }
+      return ''
+    } else {
+      const { uid, src } = activeImg
+      if (uid) {
+        const originalStatus = state.originalImgMap.get(uid)
+        if (originalStatus) {
+          return originalStatus
+        }
+      }
+      return src
+    }
+  }, [state.loadFailed, props.defaultImg, activeImg, state.originalImgMap])
 
   return (
     <div
@@ -689,7 +803,7 @@ export default (props: ViewerProps) => {
       )}
       <ViewerCanvas
         prefixCls={prefixCls}
-        imgSrc={state.loadFailed ? props.defaultImg.src || activeImg.src : activeImg.src}
+        imgSrc={imgSrc}
         visible={visible}
         width={state.width}
         height={state.height}
@@ -709,6 +823,8 @@ export default (props: ViewerProps) => {
       />
       {props.noFooter || (
         <div className={`${prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
+          {/* 查看原图 */}
+          {showOriginalUrlElem}
           {noToolbar || (
             <ViewerToolbar
               prefixCls={prefixCls}

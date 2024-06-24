@@ -119,6 +119,31 @@
     overflow: hidden;
     text-align: center;
     z-index: @zIndex + 5;
+
+    & .@{viewer-prefix-cls}-original-action{
+      padding: 4px 12px;
+      border-radius: 16px;
+      width: fit-content;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #666;
+      color: white;
+      gap: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    & .@{viewer-prefix-cls}-original-title{
+      padding: 4px 12px;
+      width: fit-content;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
   }
 
   &-inline > &-mask,
@@ -137,7 +162,8 @@
   }
 
   &-showTotal {
-    float: right;
+    position: absolute;
+    right: 20px;
   }
 
   @toolbarHeight: 28px;
@@ -282,6 +308,10 @@
 
   &-download:before {
     content: '\e9c7';
+  }
+
+  &-search::before {
+    content: '\e986';
   }
 }
 

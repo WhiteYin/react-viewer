@@ -155,23 +155,32 @@ class App extends React.Component<any, Partial<State>> {
         src: img,
         alt: 'lake',
         downloadUrl: '',
+        uid: '1',
       },
       {
         src: img2,
         alt: 'mountain',
         downloadUrl: '',
+        uid: '2',
       },
       {
         src: img3,
         alt: '',
         downloadUrl: '',
+        uid: '3',
       },
       {
         src: img4,
         alt: '',
         downloadUrl: '',
+        uid: '4',
       },
-    ]
+    ].map((img) => {
+      return {
+        ...img,
+        originalUrl: `https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png`,
+      }
+    })
 
     let inline = this.state.mode === 'inline'
 
@@ -284,6 +293,7 @@ class App extends React.Component<any, Partial<State>> {
             activeIndex={this.state.activeIndex}
             container={inline ? this.container : null}
             downloadable
+            showOriginal
             customToolbar={(toolbars) => {
               return toolbars.concat([
                 {

@@ -88,7 +88,12 @@ class ViewerTester extends React.Component<ViewerTesterProps & ViewerProps, any>
         ></div>
         <Viewer
           visible={this.state.visible}
-          images={this.state.images}
+          images={this.state.images.map((img, index) => {
+            return {
+              ...img,
+              uid: String(index),
+            }
+          })}
           activeIndex={this.state.activeIndex}
           container={hasContainer ? this.container : false}
           onClose={() => {
@@ -609,6 +614,7 @@ describe('Viewer', () => {
           src: img,
           alt: 'lake',
           downloadUrl: '',
+          uid: '1',
         },
         {
           src: img2,
@@ -618,6 +624,7 @@ describe('Viewer', () => {
             width: 200,
             height: 200,
           },
+          uid: '2',
         },
       ],
     })
@@ -642,10 +649,12 @@ describe('Viewer', () => {
         {
           src: FAILED_IMG,
           alt: 'lake',
+          uid: '1',
         },
         {
           src: img2,
           alt: 'mountain',
+          uid: '2',
         },
       ],
       defaultImg: {
@@ -673,10 +682,12 @@ describe('Viewer', () => {
             width: 100,
             height: 100,
           },
+          uid: '1',
         },
         {
           src: img2,
           alt: 'mountain',
+          uid: '2',
         },
       ],
       defaultScale: 0.5,
@@ -700,11 +711,13 @@ describe('Viewer', () => {
           src: img,
           alt: 'lake',
           downloadUrl: '',
+          uid: '1',
         },
         {
           src: img2,
           alt: 'mountain',
           downloadUrl: '',
+          uid: '2',
         },
       ],
       noLimitInitializationSize: true,
@@ -840,6 +853,7 @@ describe('Viewer', () => {
         {
           src: img,
           alt: 'lake',
+          uid: '1',
         },
       ],
       onChangeImages: () => {
@@ -847,6 +861,7 @@ describe('Viewer', () => {
           {
             src: img2,
             alt: 'mountain',
+            uid: '2',
           },
         ]
       },
