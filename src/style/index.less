@@ -2,17 +2,13 @@
 
 @font-face {
   font-family: 'icomoon';
-  src:url('fonts/icomoon.eot');
-  src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
-      url('fonts/icomoon.ttf') format('truetype'),
-      url('fonts/icomoon.woff') format('woff'),
-      url('fonts/icomoon.svg') format('svg');
+  src: url('fonts/icomoon.eot');
+  src: url('fonts/icomoon.eot?#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf') format('truetype'), url('fonts/icomoon.woff') format('woff'), url('fonts/icomoon.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 .@{viewer-prefix-cls} {
-
   &-inline {
     position: relative;
     width: 100%;
@@ -22,8 +18,8 @@
 
   @zIndex: 1000;
 
-  @btn-background-color: rgba(0, 0, 0, .5);
-  @btn-hover-background-color: rgba(0, 0, 0, .8);
+  @btn-background-color: rgba(0, 0, 0, 0.5);
+  @btn-hover-background-color: rgba(0, 0, 0, 0.8);
 
   & ul {
     margin: 0;
@@ -56,7 +52,7 @@
     color: white;
   }
 
-  &-btn:hover{
+  &-btn:hover {
     background-color: @btn-hover-background-color;
   }
 
@@ -67,7 +63,7 @@
     overflow: hidden;
     width: 40px;
     height: 40px;
-    border-radius: 0 0 0 40px;   
+    border-radius: 0 0 0 40px;
     cursor: pointer;
     z-index: @zIndex + 10;
   }
@@ -86,6 +82,24 @@
     bottom: 0;
     overflow: hidden;
     z-index: @zIndex + 5;
+
+    &-action {
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      position: absolute;
+      top: 50%;
+      font-size: 36px;
+
+      &.prev {
+        left: 10px;
+      }
+
+      &.next {
+        right: 10px;
+      }
+    }
+
     > img {
       display: block;
       width: auto;
@@ -107,14 +121,17 @@
     z-index: @zIndex + 5;
   }
 
-  &-inline > &-mask, &-inline > &-close, &-inline > &-canvas, &-inline > &-footer {
+  &-inline > &-mask,
+  &-inline > &-close,
+  &-inline > &-canvas,
+  &-inline > &-footer {
     position: absolute;
   }
 
   &-attribute {
     margin: 0 20px;
     margin-bottom: 6px;
-    opacity: .8;
+    opacity: 0.8;
     color: #ccc;
     font-size: 15px;
   }
@@ -142,7 +159,7 @@
   }
 
   &-toolbar li:hover {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: rgba(0, 0, 0, 0.8);
   }
 
   li.empty {
@@ -179,14 +196,14 @@
     width: @viewer-list-item-img-width;
     height: @viewer-list-item-height;
     margin-left: @viewer-list-item-img-marginLeft;
-    opacity: .5;
-  }  
+    opacity: 0.5;
+  }
 
   &-list > li.active > img {
     opacity: 1;
   }
 
-  @transitionDuration: .3s;
+  @transitionDuration: 0.3s;
   @transitionFunc: ease-out;
 
   &-transition {
@@ -220,7 +237,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: white;
-    font-size: 13px;    
+    font-size: 13px;
   }
 
   &-zoomIn:before {
@@ -233,23 +250,23 @@
 
   &-prev:before {
     content: '\ea38';
-  } 
+  }
 
   &-next:before {
     content: '\ea34';
-  } 
+  }
 
   &-close:before {
     content: '\ea0f';
-  } 
+  }
 
   &-rotateLeft:before {
     content: '\e967';
-  }  
+  }
 
   &-rotateRight:before {
     content: '\e968';
-  } 
+  }
 
   &-reset:before {
     content: '\e984';
@@ -257,15 +274,15 @@
 
   &-scaleX:before {
     content: '\ea60';
-  } 
+  }
 
   &-scaleY:before {
     content: '\ea5f';
   }
-  
+
   &-download:before {
     content: '\e9c7';
-  }   
+  }
 }
 
 .circle-loading {
@@ -274,12 +291,12 @@
   height: 80px;
   border-radius: 100%;
   border: 10px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #FFF;
+  border-top-color: #fff;
   animation: spin 1s infinite linear;
 }
 
-@keyframes spin { 
-  100% { 
-    transform: rotate(360deg); 
-  } 
-} 
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

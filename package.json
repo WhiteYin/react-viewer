@@ -1,6 +1,6 @@
 {
-  "name": "react-viewer",
-  "version": "3.2.2",
+  "name": "@whiteyin/react-viewer",
+  "version": "1.0.0",
   "description": "react image viewer",
   "main": "dist/index",
   "scripts": {
@@ -17,24 +17,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/infeng/react-viewer.git"
+    "url": "git+https://github.com/WhiteYin/react-viewer.git"
   },
   "keywords": [
     "react",
     "image",
     "viewer"
   ],
-  "author": "infeng",
+  "author": "whiteyin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/infeng/react-viewer/issues"
+    "url": "https://github.com/WhiteYin/react-viewer/issues"
   },
   "files": [
     "dist",
     "lib"
   ],
   "typings": "lib/index.d.ts",
-  "homepage": "https://github.com/infeng/react-viewer#readme",
+  "homepage": "https://github.com/WhiteYin/react-viewer#readme",
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
@@ -91,9 +91,6 @@
   "dependencies": {
     "classnames": "^2.2.5"
   },
-  "pre-commit": [
-    "lint"
-  ],
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "ts-jest",
