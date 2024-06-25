@@ -22,6 +22,10 @@ export interface ViewerCanvasProps {
   container: HTMLElement
   onCanvasMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void
   handleDefaultAction(type: ActionType): void
+  activeIndex: number
+  count: number
+  showTotal: boolean
+  totalName: string
 }
 
 export interface ViewerCanvasState {
@@ -173,11 +177,14 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
 
   return (
     <div className={`${props.prefixCls}-canvas`} onMouseDown={handleCanvasMouseDown} style={style}>
+      {/* 序号展示 */}
+      {props.showTotal && <span className={`${props.prefixCls}-showTotal`}>{`${props.activeIndex + 1}${props.totalName}${props.count}`}</span>}
       <div
         className={`${props.prefixCls}-canvas-action prev`}
         onClick={() => {
           handleDefaultAction(ActionType.prev)
         }}
+        title="前一张"
       >
         &lt;
       </div>
@@ -187,6 +194,7 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
         onClick={() => {
           handleDefaultAction(ActionType.next)
         }}
+        title="后一张"
       >
         &gt;
       </div>

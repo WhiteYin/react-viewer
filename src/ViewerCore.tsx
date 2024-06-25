@@ -74,7 +74,7 @@ export default (props: ViewerProps) => {
     noImgDetails = false,
     noToolbar = false,
     showTotal = true,
-    totalName = 'of',
+    totalName = '/',
     minScale = 0.1,
   } = props
 
@@ -820,6 +820,10 @@ export default (props: ViewerProps) => {
         container={props.container}
         onCanvasMouseDown={handleCanvasMouseDown}
         handleDefaultAction={handleDefaultAction}
+        activeIndex={state.activeIndex}
+        count={images.length}
+        showTotal={showTotal}
+        totalName={totalName}
       />
       {props.noFooter || (
         <div className={`${prefixCls}-footer`} style={{ zIndex: zIndex + 5 }}>
@@ -840,10 +844,6 @@ export default (props: ViewerProps) => {
               downloadable={downloadable}
               noImgDetails={noImgDetails}
               toolbars={customToolbar(defaultToolbars)}
-              activeIndex={state.activeIndex}
-              count={images.length}
-              showTotal={showTotal}
-              totalName={totalName}
             />
           )}
           {props.noNavbar || <ViewerNav prefixCls={prefixCls} images={props.images} activeIndex={state.activeIndex} onChangeImg={handleChangeImg} />}
