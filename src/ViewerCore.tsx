@@ -699,7 +699,7 @@ export default (props: ViewerProps) => {
     )
   }
 
-  const prefixCls = 'react-viewer'
+  const prefixCls = 'wy-react-viewer'
 
   const className = classnames(`${prefixCls}`, `${prefixCls}-transition`, {
     [`${prefixCls}-inline`]: props.container,
