@@ -701,7 +701,7 @@ export default (props: ViewerProps) => {
 
   const prefixCls = 'wy-react-viewer'
 
-  const className = classnames(`${prefixCls}`, `${prefixCls}-transition`, {
+  const className = classnames(`${prefixCls}`, {
     [`${prefixCls}-inline`]: props.container,
     [props.className]: props.className,
   })
@@ -774,21 +774,18 @@ export default (props: ViewerProps) => {
     }
   }, [state.loadFailed, props.defaultImg, activeImg, state.originalImgMap])
 
+  React.useEffect(() => {
+    if (!visible) {
+      dispatch(
+        createAction(ACTION_TYPES.setVisible, {
+          visible: false,
+        })
+      )
+    }
+  }, [visible])
+
   return (
-    <div
-      className={className}
-      style={viewerStryle}
-      onTransitionEnd={() => {
-        if (!visible) {
-          dispatch(
-            createAction(ACTION_TYPES.setVisible, {
-              visible: false,
-            })
-          )
-        }
-      }}
-      ref={viewerCore}
-    >
+    <div className={className} style={viewerStryle} ref={viewerCore}>
       <div className={`${prefixCls}-mask`} style={{ zIndex: zIndex }} />
       {props.noClose || (
         <div
