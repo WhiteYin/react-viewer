@@ -2,6 +2,7 @@ import * as React from 'react'
 import Loading from './Loading'
 import classnames from 'classnames'
 import { ActionType } from './Icon'
+import ArrowRightIcon from './icons/arrowRight'
 
 export interface ViewerCanvasProps {
   prefixCls: string
@@ -186,7 +187,7 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
         }}
         title="前一张"
       >
-        &lt;
+        <ArrowRightIcon />
       </div>
       {imgNode}
       <div
@@ -196,7 +197,7 @@ translateX(${props.left !== null ? props.left + 'px' : 'aoto'}) translateY(${pro
         }}
         title="后一张"
       >
-        &gt;
+        <ArrowRightIcon />
       </div>
     </div>
   )

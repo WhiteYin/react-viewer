@@ -89,16 +89,19 @@
       font-weight: bold;
       position: absolute;
       top: 50%;
-      font-size: 36px;
+      font-size: 48px;
       z-index: 1;
       transform: translateY(-50%);
 
       &.prev {
-        left: 25%;
+        .wy-viewer-icon {
+          transform: rotateZ(180deg);
+        }
+        left: 20px;
       }
 
       &.next {
-        right: 25%;
+        right: 20px;
       }
     }
 
