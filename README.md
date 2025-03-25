@@ -72,7 +72,7 @@ I'm sorry, ssr is not currently supported in `3.x`, it will be fixed in `4.0`.
 | onClose      | function       |  -      | Specify a function that will be called when Visible close   | true |
 | images       | [ImageDecorator](#imagedecorator)[]     | []      | image source array | true  |
 | activeIndex  | number       | 0       | active image index | false |
-| zIndex       | number       | 1000    | Viewer css z-index | false |
+| zIndex       | number       | 2000    | Viewer css z-index | false |
 | container    | HTMLElement  | null    | set parent node(inline mode) | false |
 | drag         | boolean      | true    | whether to drag image | false |
 | attribute    | boolean      | true    | whether to show image attribute | false |
